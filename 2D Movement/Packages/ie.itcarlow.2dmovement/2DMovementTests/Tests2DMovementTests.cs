@@ -24,7 +24,7 @@ namespace Tests
         }
 
         [UnityTest]
-        public IEnumerator HorizontalMovement()
+        public IEnumerator LeftAndRightMovementTest()
         {
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
@@ -36,6 +36,46 @@ namespace Tests
             player.GetComponent<Runtime2DMovement>().moveLeft();
             yield return new WaitForSeconds(1.0f);
             Assert.Less(player.GetComponent<Rigidbody2D>().position.x, position.x);
+        }
+
+        [UnityTest]
+        public IEnumerator IntialJumpTest()
+        {
+            player = GameObject.Find("Player");
+            Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().intialJump();
+            yield return new WaitForSeconds(0.5f);
+            Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
+        }
+
+        [UnityTest]
+        public IEnumerator IsGroundedAfterJump()
+        {
+            player = GameObject.Find("Player");
+            Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().intialJump();
+            yield return new WaitForSeconds(1.0f);
+            Assert.IsTrue(player.GetComponent<Runtime2DMovement>().getIsGrounded());
+        }
+
+        [UnityTest]
+        public IEnumerator continuousJumpTest()
+        {
+            player = GameObject.Find("Player");
+            Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().intialJump();
+            yield return new WaitForSeconds(0.1f);
+            Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
+
+            position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().continuousJump();
+            yield return new WaitForSeconds(0.1f);
+            Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
+
+            position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().continuousJump();
+            yield return new WaitForSeconds(0.1f);
+            Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
     }
 }
