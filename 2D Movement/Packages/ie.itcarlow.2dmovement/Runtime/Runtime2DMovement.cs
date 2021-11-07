@@ -150,7 +150,7 @@ public class Runtime2DMovement : MonoBehaviour
         rb.velocity = temp;
     }
 
-    void intialJump()
+    public void intialJump()
     {
         Vector3 temp = rb.velocity;
         temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
@@ -160,7 +160,7 @@ public class Runtime2DMovement : MonoBehaviour
         _isJumping = true;
     }
 
-    void continuousJump()
+    public void continuousJump()
     {
         if (jumpTimeCounter > 0)
         {
@@ -174,5 +174,10 @@ public class Runtime2DMovement : MonoBehaviour
         {
             _isJumping = false;
         }
+    }
+
+    public bool getIsGrounded()
+    {
+        return _isGrounded;
     }
 }
