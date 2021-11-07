@@ -308,8 +308,8 @@ GameObject:
   - component: {fileID: 1463122483}
   - component: {fileID: 1463122484}
   m_Layer: 0
-  m_Name: New SpriteShapeController (1)
-  m_TagString: Untagged
+  m_Name: Player
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

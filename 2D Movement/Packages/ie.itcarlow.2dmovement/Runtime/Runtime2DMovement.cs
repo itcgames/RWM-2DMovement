@@ -49,22 +49,16 @@ public class Runtime2DMovement : MonoBehaviour
         {
             if (_moveRight)
             {
-                Vector2 temp = rb.velocity;
-                temp.x = _speed;
-                rb.velocity = temp;
+                moveRight();
             }
             else if (_moveLeft)
             {
-                Vector2 temp = rb.velocity;
-                temp.x = -_speed;
-                rb.velocity = temp;
+                moveLeft();
             }
         }
         else
         {
-            Vector2 temp = rb.velocity;
-            temp.x = 0;
-            rb.velocity = temp;
+            stopLeftAndRightMovement();
         }
     }
 
@@ -107,5 +101,26 @@ public class Runtime2DMovement : MonoBehaviour
         {
             _isGrounded = false;
         }
+    }
+
+    public void moveRight()
+    {
+        Vector2 temp = rb.velocity;
+        temp.x = _speed;
+        rb.velocity = temp;
+    }
+
+    public void moveLeft()
+    {
+        Vector2 temp = rb.velocity;
+        temp.x = -_speed;
+        rb.velocity = temp;
+    }
+
+    public void stopLeftAndRightMovement()
+    {
+        Vector2 temp = rb.velocity;
+        temp.x = 0;
+        rb.velocity = temp;
     }
 }
