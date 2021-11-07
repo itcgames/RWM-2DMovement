@@ -474,9 +474,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434c82429ec95684889105cf450b2b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isGrounded: 0
   _speed: 0
   _walkableSurfaceTagName: Ground
+  leftKey: 97
+  rightKey: 100
 --- !u!61 &1463122484
 BoxCollider2D:
   m_ObjectHideFlags: 0

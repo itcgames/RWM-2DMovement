@@ -5,10 +5,15 @@ using UnityEngine;
 public class Runtime2DMovement : MonoBehaviour
 {
     private bool _moveRight; // right direction.
+    private bool _moveLeft;
     private Rigidbody2D rb;
-    public bool _isGrounded; // is the player on the ground.
+    private bool _isGrounded; // is the player on the ground.
+
     public int _speed;
     public string _walkableSurfaceTagName;
+    public KeyCode leftKey;
+    public KeyCode rightKey;
+
     void Start()
     {
         rb = this.GetComponent<Rigidbody2D>();
@@ -20,6 +25,7 @@ public class Runtime2DMovement : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
         _moveRight = false;
+        _moveLeft = false;
         _isGrounded = false;
         _speed = 2;
     }
@@ -27,11 +33,32 @@ public class Runtime2DMovement : MonoBehaviour
     void Update()
     {
         getInput();
-        if(_moveRight)
+    }
+
+    // Gets input for the user.
+    void getInput()
+    {
+        getRightInput();
+        getLightInput();
+        move();
+    }
+
+    void move()
+    {
+        if (_moveRight || _moveLeft)
         {
-            Vector2 temp = rb.velocity;
-            temp.x = _speed;
-            rb.velocity = temp;
+            if (_moveRight)
+            {
+                Vector2 temp = rb.velocity;
+                temp.x = _speed;
+                rb.velocity = temp;
+            }
+            else if (_moveLeft)
+            {
+                Vector2 temp = rb.velocity;
+                temp.x = -_speed;
+                rb.velocity = temp;
+            }
         }
         else
         {
@@ -41,21 +68,27 @@ public class Runtime2DMovement : MonoBehaviour
         }
     }
 
-    // Gets input for the user.
-    void getInput()
-    {
-        getRightInput();
-    }
-
     void getRightInput()
     {
-        if (Input.GetKeyDown(KeyCode.D)) // RIGHT
+        if (Input.GetKeyDown(rightKey)) // RIGHT
         {
             _moveRight = true;
         }
-        if (Input.GetKeyUp(KeyCode.D))
+        if (Input.GetKeyUp(rightKey))
         {
             _moveRight = false;
+        }
+    }
+
+    void getLightInput()
+    {
+        if (Input.GetKeyDown(leftKey)) // RIGHT
+        {
+            _moveLeft = true;
+        }
+        if (Input.GetKeyUp(leftKey))
+        {
+            _moveLeft = false;
         }
     }
 
