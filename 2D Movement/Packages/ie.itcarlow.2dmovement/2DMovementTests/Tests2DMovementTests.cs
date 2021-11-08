@@ -44,7 +44,7 @@ namespace Tests
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
             player.GetComponent<Runtime2DMovement>().intialJump();
-            yield return new WaitForSeconds(0.5f);
+            yield return new WaitForSeconds(0.2f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
 

@@ -306,7 +306,6 @@ GameObject:
   - component: {fileID: 1463122479}
   - component: {fileID: 1463122482}
   - component: {fileID: 1463122483}
-  - component: {fileID: 1463122484}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -456,7 +455,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 1
+  m_GravityScale: 3
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -474,39 +473,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 434c82429ec95684889105cf450b2b69, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _speed: 3
   _walkableSurfaceTagName: Ground
   leftKey: 97
   rightKey: 100
   jumpKey: 32
-  impluseJumpVel: 2
-  TimeToReachMaxHeight: 1
---- !u!61 &1463122484
-BoxCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1463122478}
-  m_Enabled: 1
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.00000023841858}
-  m_SpriteTilingProperty:
-    border: {x: 0, y: 0, z: 0, w: 0}
-    pivot: {x: 0, y: 0}
-    oldSize: {x: 0, y: 0}
-    newSize: {x: 0, y: 0}
-    adaptiveTilingThreshold: 0
-    drawMode: 0
-    adaptiveTiling: 0
-  m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 4.0000005, y: 4}
-  m_EdgeRadius: 0
+  impluseJumpVel: 5
+  TimeToReachMaxHeight: 0.3
+  _movementTime: 0.3
+  _MAX_WALKING_SPEED: 0
+  acclearation: 0
+  _LOWEST_WALKING_SPEED: 0
 --- !u!1 &1983652680
 GameObject:
   m_ObjectHideFlags: 0
