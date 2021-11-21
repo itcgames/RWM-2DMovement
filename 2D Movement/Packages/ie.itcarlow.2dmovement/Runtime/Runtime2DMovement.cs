@@ -279,6 +279,21 @@ public class Runtime2DMovement : MonoBehaviour
         return _isGrounded;
     }
 
+    public bool getIsMovingRight()
+    {
+        return _moveRight;
+    }
+
+    public bool getIsMovingLeft()
+    {
+        return _moveLeft;
+    }
+
+    public bool getIsJumping()
+    {
+        return _isJumping;
+    }
+
     Vector2 getVel(float time)
     {
         return new Vector3(acclearation * time, _velocity.y, 0.0f); // v = u + at.
