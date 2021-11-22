@@ -101,21 +101,7 @@ public class Runtime2DMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(rightKey)) // RIGHT
         {
-            if (_moveLeft)
-            {
-                _timeLeft = _movementTime * 2.0f;
-            }
-            else
-            {
-                _timeLeft = _movementTime;
-                if (_velocity.x > 0.0f)
-                {
-                    _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-                }
-            }
-            _moveRight = true;
-            _moveLeft = false;
-            _elaspedTimeSinceButtonPress = 0.0f;
+            handleRightInput();
         }
         if (Input.GetKeyUp(rightKey))
         {
@@ -127,21 +113,7 @@ public class Runtime2DMovement : MonoBehaviour
     {
         if (Input.GetKeyDown(leftKey)) // RIGHT
         {
-            if (_moveRight)
-            {
-                _timeLeft = _movementTime * 2.0f;
-            }
-            else
-            {
-                _timeLeft = _movementTime;
-                if (_velocity.x < 0.0f)
-                {
-                    _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-                }
-            }
-            _moveLeft = true;
-            _moveRight = false;
-            _elaspedTimeSinceButtonPress = 0.0f;
+            handleLeftInput();
         }
         if (Input.GetKeyUp(leftKey))
         {
@@ -250,12 +222,7 @@ public class Runtime2DMovement : MonoBehaviour
 
     public void intialJump()
     {
-        Vector3 temp = rb.velocity;
-        temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
-        temp.x = rb.velocity.x;
-        rb.velocity = temp;
-        jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
-        _isJumping = true;
+        handleJumpInput();
     }
 
     public void continuousJump()
@@ -293,7 +260,55 @@ public class Runtime2DMovement : MonoBehaviour
     {
         return _isJumping;
     }
+	
+	public void handleRightInput()
+	{
+		if (_moveLeft)
+		{
+			_timeLeft = _movementTime * 2.0f;
+		}
+		else
+		{
+			_timeLeft = _movementTime;
+			if (_velocity.x > 0.0f)
+			{
+				_timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
+			}
+		}
+		_moveRight = true;
+		_moveLeft = false;
+		_elaspedTimeSinceButtonPress = 0.0f;
+	}
+	
+	public void handleLeftInput()
+	{
+		if (_moveRight)
+		{
+			_timeLeft = _movementTime * 2.0f;
+		}
+		else
+		{
+			_timeLeft = _movementTime;
+			if (_velocity.x < 0.0f)
+			{
+				_timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
+			}
+		}
+		_moveLeft = true;
+		_moveRight = false;
+		_elaspedTimeSinceButtonPress = 0.0f;
+	}
 
+	public void handleJumpInput()
+	{
+		Vector3 temp = rb.velocity;
+        temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
+        temp.x = rb.velocity.x;
+        rb.velocity = temp;
+        jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
+        _isJumping = true;
+	}
+	
     Vector2 getVel(float time)
     {
         return new Vector3(acclearation * time, _velocity.y, 0.0f); // v = u + at.
