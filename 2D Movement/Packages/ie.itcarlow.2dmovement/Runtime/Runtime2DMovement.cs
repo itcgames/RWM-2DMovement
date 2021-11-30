@@ -13,22 +13,22 @@ public class Runtime2DMovement : MonoBehaviour
 
     private Rigidbody2D rb;
     private float jumpTimeCounter;
-    private Vector2 _velocity;
+    private Vector2 _velocity = new Vector2(0.0f, 0.0f);
     private float _timeLeft;
-    private float _declaration;
+    private float _declaration = 0.0f;
     private float _elaspedTimeSinceButtonPress;
 
     // VARIALBES THE USER CAN EDIT TO CREATE DIFFERENT JUMP ARCS/MOVEMENT
     public string _walkableSurfaceTagName;
-    public KeyCode leftKey;
-    public KeyCode rightKey;
-    public KeyCode jumpKey;
-    public float impluseJumpVel;
-    public float TimeToReachMaxHeight;
+    public KeyCode leftKey = KeyCode.A;
+    public KeyCode rightKey = KeyCode.D;
+    public KeyCode jumpKey = KeyCode.Space;
+    public float impluseJumpVel = 4.0f;
+    public float TimeToReachMaxHeight = 0.5f;
     public float _movementTime = 0.100f;
-    public float _MAX_WALKING_SPEED;
-    public float acclearation;
-    public float _LOWEST_WALKING_SPEED;
+    public float _MAX_WALKING_SPEED = 5.0f;
+    public float acclearation = 17.0f;
+    public float _LOWEST_WALKING_SPEED = 0.3f;
     // VARIALBES THE USER CAN EDIT TO CREATE DIFFERENT JUMP ARCS/MOVEMENT
 
     void Start()
@@ -42,7 +42,7 @@ public class Runtime2DMovement : MonoBehaviour
             rb = GetComponent<Rigidbody2D>();
             rb.angularDrag = 0;
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
-            rb.gravityScale = 3;
+            rb.gravityScale = 6;
         }
         
         // CHECK IF THE GAME OBJECT HAS A BOX COLLDER ATTACHED, IF NOT THEN CREATE ONE.
@@ -50,17 +50,6 @@ public class Runtime2DMovement : MonoBehaviour
         {
             gameObject.AddComponent<BoxCollider2D>();
         }
-
-        _moveRight = false;
-        _moveLeft = false;
-        _isGrounded = false;
-        _declaration = 0.0f;
-        impluseJumpVel = 4f;
-        TimeToReachMaxHeight = 0.5f;
-        acclearation = 17.0f;
-        _velocity = new Vector2(0.0f, 0.0f);
-        _MAX_WALKING_SPEED = 5.0f;
-        _LOWEST_WALKING_SPEED = 0.3f;
     }
 
     void Update()

@@ -455,7 +455,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0
-  m_GravityScale: 3
+  m_GravityScale: 6
   m_Material: {fileID: 0}
   m_Interpolate: 0
   m_SleepingMode: 1
@@ -477,12 +477,12 @@ MonoBehaviour:
   leftKey: 97
   rightKey: 100
   jumpKey: 32
-  impluseJumpVel: 5
-  TimeToReachMaxHeight: 0.3
-  _movementTime: 0.3
-  _MAX_WALKING_SPEED: 0
-  acclearation: 0
-  _LOWEST_WALKING_SPEED: 0
+  impluseJumpVel: 4
+  TimeToReachMaxHeight: 0.4
+  _movementTime: 0.1
+  _MAX_WALKING_SPEED: 5
+  acclearation: 17
+  _LOWEST_WALKING_SPEED: 0.3
 --- !u!1 &1983652680
 GameObject:
   m_ObjectHideFlags: 0
