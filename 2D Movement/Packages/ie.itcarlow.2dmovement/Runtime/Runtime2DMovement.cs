@@ -133,11 +133,6 @@ public class Runtime2DMovement : MonoBehaviour
             _isGrounded = true;
             _isJumping = false;
         }
-        else
-        {
-            _moveLeft = false;
-            _moveRight = false;
-        }
     }
 
 
