@@ -9,6 +9,7 @@ public class Runtime2DMovement : MonoBehaviour
     private bool _moveLeft;
     private bool _isJumping;
     private bool _isGrounded;
+    private bool _stopMovement = false;
     // BOOLS USED FOR MOVEMENT, WILL BE CHANGED FOR FSM
 
     private Rigidbody2D rb;
@@ -44,9 +45,9 @@ public class Runtime2DMovement : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
             rb.gravityScale = 6;
         }
-        
+
         // CHECK IF THE GAME OBJECT HAS A BOX COLLDER ATTACHED, IF NOT THEN CREATE ONE.
-        if(!this.GetComponent<BoxCollider2D>())
+        if (!this.GetComponent<BoxCollider2D>())
         {
             gameObject.AddComponent<BoxCollider2D>();
         }
@@ -68,7 +69,7 @@ public class Runtime2DMovement : MonoBehaviour
 
     void move()
     {
-        if (_moveRight || _moveLeft)
+        if ((_moveRight || _moveLeft) && !_stopMovement)
         {
             if (_moveRight)
             {
@@ -132,11 +133,6 @@ public class Runtime2DMovement : MonoBehaviour
         {
             _isGrounded = true;
             _isJumping = false;
-        }
-        else
-        {
-            _moveLeft = false;
-            _moveRight = false;
         }
     }
 
@@ -249,57 +245,62 @@ public class Runtime2DMovement : MonoBehaviour
     {
         return _isJumping;
     }
-	
-	public void handleRightInput()
-	{
-		if (_moveLeft)
-		{
-			_timeLeft = _movementTime * 2.0f;
-		}
-		else
-		{
-			_timeLeft = _movementTime;
-			if (_velocity.x > 0.0f)
-			{
-				_timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-			}
-		}
-		_moveRight = true;
-		_moveLeft = false;
-		_elaspedTimeSinceButtonPress = 0.0f;
-	}
-	
-	public void handleLeftInput()
-	{
-		if (_moveRight)
-		{
-			_timeLeft = _movementTime * 2.0f;
-		}
-		else
-		{
-			_timeLeft = _movementTime;
-			if (_velocity.x < 0.0f)
-			{
-				_timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-			}
-		}
-		_moveLeft = true;
-		_moveRight = false;
-		_elaspedTimeSinceButtonPress = 0.0f;
-	}
 
-	public void handleJumpInput()
-	{
-		Vector3 temp = rb.velocity;
+    public void handleRightInput()
+    {
+        if (_moveLeft)
+        {
+            _timeLeft = _movementTime * 2.0f;
+        }
+        else
+        {
+            _timeLeft = _movementTime;
+            if (_velocity.x > 0.0f)
+            {
+                _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
+            }
+        }
+        _moveRight = true;
+        _moveLeft = false;
+        _elaspedTimeSinceButtonPress = 0.0f;
+    }
+
+    public void handleLeftInput()
+    {
+        if (_moveRight)
+        {
+            _timeLeft = _movementTime * 2.0f;
+        }
+        else
+        {
+            _timeLeft = _movementTime;
+            if (_velocity.x < 0.0f)
+            {
+                _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
+            }
+        }
+        _moveLeft = true;
+        _moveRight = false;
+        _elaspedTimeSinceButtonPress = 0.0f;
+    }
+
+    public void handleJumpInput()
+    {
+        Vector3 temp = rb.velocity;
         temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
         temp.x = rb.velocity.x;
         rb.velocity = temp;
         jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
         _isJumping = true;
-	}
-	
+    }
+
     Vector2 getVel(float time)
     {
         return new Vector3(acclearation * time, _velocity.y, 0.0f); // v = u + at.
+    }
+
+    public void setStopMovement(bool t_stopMovement)
+    {
+        _stopMovement = t_stopMovement;
     }
 }
