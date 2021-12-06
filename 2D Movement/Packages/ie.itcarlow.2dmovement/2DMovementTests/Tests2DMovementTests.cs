@@ -44,7 +44,7 @@ namespace Tests
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
             player.GetComponent<Runtime2DMovement>().intialJump();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
 
@@ -64,17 +64,17 @@ namespace Tests
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
             player.GetComponent<Runtime2DMovement>().intialJump();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
 
             position = player.GetComponent<Rigidbody2D>().transform.position;
             player.GetComponent<Runtime2DMovement>().continuousJump();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
 
             position = player.GetComponent<Rigidbody2D>().transform.position;
             player.GetComponent<Runtime2DMovement>().continuousJump();
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
     }

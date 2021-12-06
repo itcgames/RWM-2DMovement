@@ -303,4 +303,14 @@ public class Runtime2DMovement : MonoBehaviour
     {
         _stopMovement = t_stopMovement;
     }
+	
+	public void setWalkRight(bool t_moveRight)
+	{
+		_moveRight = t_moveRight;
+	}
+	
+	public void setWalkLeft(bool t_moveLeft)
+	{
+		_moveLeft = t_moveLeft;
+	}
 }
