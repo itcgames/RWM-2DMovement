@@ -12,6 +12,7 @@ public class MovingStateMachine : FiniteStateMachine
     public WalkingRightState movementRight;
     public JumpingState jumping;
     public State initalState;
+    public Animator _animator;
     private void Awake()
     {
         idleState = new IdleState(this);
@@ -20,6 +21,7 @@ public class MovingStateMachine : FiniteStateMachine
         jumping = new JumpingState(this);
         movementController = this.GetComponent<Runtime2DMovement>();
         initalState = idleState;
+        _animator = this.GetComponent<Animator>();
     }
 
     protected override State GetInitialState()

@@ -14,6 +14,10 @@ public class IdleState : State
     public override void Enter()
     {
         base.Enter();
+        _sm._animator.SetBool("Idle", true);
+        _sm._animator.SetBool("Jumping", false);
+        _sm._animator.SetBool("WalkingLeft", false);
+        _sm._animator.SetBool("WalkingRight", false);
     }
 
     public override void UpdateLogic()

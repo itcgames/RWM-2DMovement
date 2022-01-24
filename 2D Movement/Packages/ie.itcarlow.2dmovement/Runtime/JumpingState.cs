@@ -13,6 +13,10 @@ public class JumpingState : State
     public override void Enter()
     {
         base.Enter();
+        _sm._animator.SetBool("Idle", false);
+        _sm._animator.SetBool("Jumping", true);
+        _sm._animator.SetBool("WalkingLeft", false);
+        _sm._animator.SetBool("WalkingRight", false);
         handleJumpInput();
     }
 
