@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class StateMachine : MonoBehaviour
+public class FiniteStateMachine : MonoBehaviour
 {
-    BaseState currentState;
+    State currentState;
     void Start()
     {
         currentState = GetInitialState();
@@ -25,7 +25,7 @@ public class StateMachine : MonoBehaviour
             currentState.UpdatePhysics();
     }
 
-    public void ChangeState(BaseState newState)
+    public void ChangeState(State newState)
     {
         currentState.Exit();
 
@@ -33,7 +33,7 @@ public class StateMachine : MonoBehaviour
         currentState.Enter();
     }
 
-    protected virtual BaseState GetInitialState()
+    protected virtual State GetInitialState()
     {
         return null;
     }

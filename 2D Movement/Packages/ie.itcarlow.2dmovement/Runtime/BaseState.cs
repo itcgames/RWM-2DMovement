@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseState
+public class State
 {
     public string name;
-    protected StateMachine stateMachine;
+    protected FiniteStateMachine stateMachine;
 
-    public BaseState(string name, StateMachine stateMachine)
+    public State(string name, FiniteStateMachine stateMachine)
     {
         this.name = name;
         this.stateMachine = stateMachine;
