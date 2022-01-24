@@ -17,7 +17,8 @@ public class Runtime2DMovement : MonoBehaviour
     private float _declaration = 0.0f;
     private float _elaspedTimeSinceButtonPress;
     private bool _isDead = false;
-    private bool _invincible = false;
+    [HideInInspector]
+    public bool _invincible = false;
 
     // VARIALBES THE USER CAN EDIT TO CREATE DIFFERENT JUMP ARCS/MOVEMENT
     public string _walkableSurfaceTagName;

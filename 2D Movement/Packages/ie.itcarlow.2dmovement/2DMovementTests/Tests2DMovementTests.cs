@@ -81,5 +81,37 @@ namespace Tests
             yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
+
+        [UnityTest]
+        public IEnumerator healthDamageTest()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().decreaseHealth(2);
+            yield return new WaitForSeconds(0.01f);
+            Assert.Less(player.GetComponent<Runtime2DMovement>()._health, health);
+        }
+
+        [UnityTest]
+        public IEnumerator healthAdditionTest()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().addHealth(2);
+            yield return new WaitForSeconds(0.01f);
+            Assert.Greater(player.GetComponent<Runtime2DMovement>()._health, health);
+        }
+
+        [UnityTest]
+        public IEnumerator healthInvinibilityFramesTest()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().decreaseHealth(2);
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(player.GetComponent<Runtime2DMovement>()._invincible);
+            yield return new WaitForSeconds(3.0f);
+            Assert.IsFalse(player.GetComponent<Runtime2DMovement>()._invincible);
+        }
     }
 }

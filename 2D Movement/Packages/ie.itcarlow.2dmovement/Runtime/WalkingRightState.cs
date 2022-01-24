@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WalkingRightState : BaseState
+public class WalkingRightState : State
 {
     private MovingStateMachine _sm;
     public WalkingRightState(MovingStateMachine stateMachine) : base("moving", stateMachine)
@@ -21,16 +21,16 @@ public class WalkingRightState : BaseState
         base.UpdateLogic();
         moveRight();
         _sm.movement.setTimeSinceLastButtonPress(_sm.movement.getTimeSinceLastButtonPress() + Time.deltaTime);
-        if (Input.GetKeyUp(KeyCode.RightArrow))
+        if (Input.GetKeyUp(_sm.movement.rightKey))
         {
             _sm.movement.setVelocity(_sm.movement.getRigidBody().velocity);
             stateMachine.ChangeState(_sm.idleState);
         }
-        else if (Input.GetKeyDown(KeyCode.LeftArrow))
+        else if (Input.GetKeyDown(_sm.movement.leftKey))
         {
             stateMachine.ChangeState(_sm.movementLeft);
         }
-        else if (Input.GetKeyDown(KeyCode.Space) && _sm.movement.getIsGrounded())
+        else if (Input.GetKeyDown(_sm.movement.jumpKey) && _sm.movement.getIsGrounded())
         {
             stateMachine.ChangeState(_sm.jumping);
         }
