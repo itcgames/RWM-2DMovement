@@ -67,49 +67,7 @@ public class Runtime2DMovement : MonoBehaviour
         //getLightInput();
     }
 
-    //void move()
-    //{
-    //    if ((_moveRight || _moveLeft) && !_stopMovement)
-    //    {
-    //        if (_moveRight)
-    //        {
-    //            moveRight();
-    //        }
-    //        else if (_moveLeft)
-    //        {
-    //            moveLeft();
-    //        }
-    //        _elaspedTimeSinceButtonPress += Time.deltaTime;
-    //    }
-    //    else
-    //    {
-    //        stopLeftAndRightMovement();
-    //    }
-    //}
 
-    //void getRightInput()
-    //{
-    //    if (Input.GetKeyDown(rightKey)) // RIGHT
-    //    {
-    //        handleRightInput();
-    //    }
-    //    if (Input.GetKeyUp(rightKey))
-    //    {
-    //        _moveRight = false;
-    //    }
-    //}
-
-    //void getLightInput()
-    //{
-    //    if (Input.GetKeyDown(leftKey)) // RIGHT
-    //    {
-    //        handleLeftInput();
-    //    }
-    //    if (Input.GetKeyUp(leftKey))
-    //    {
-    //        _moveLeft = false;
-    //    }
-    //}
 
     //void getUpInput()
     //{
@@ -131,7 +89,7 @@ public class Runtime2DMovement : MonoBehaviour
     {
         if (walkableSurface.gameObject.tag == _walkableSurfaceTagName && !_isGrounded)
         {
-            _isGrounded = true;
+             _isGrounded = true;
             _isJumping = false;
         }
     }
@@ -144,40 +102,6 @@ public class Runtime2DMovement : MonoBehaviour
             _isGrounded = false;
         }
     }
-
-    //public void moveRight()
-    //{
-    //    if (_elaspedTimeSinceButtonPress < _timeLeft)
-    //    {
-    //        _velocity = rb.velocity;
-    //        _velocity.x = getVel(_elaspedTimeSinceButtonPress).x;
-    //        rb.velocity = _velocity;
-    //        rb.velocity = new Vector2(Mathf.Clamp(_velocity.x, -_MAX_WALKING_SPEED, _MAX_WALKING_SPEED), _velocity.y); // Clamp speed.
-    //    }
-    //    else
-    //    {
-    //        Vector3 temp = rb.velocity;
-    //        temp.x = _MAX_WALKING_SPEED;
-    //        rb.velocity = temp;
-    //    }
-    //}
-
-    //public void moveLeft()
-    //{
-    //    if (_elaspedTimeSinceButtonPress < _timeLeft) // If the elaspedtime on when the button is pressed is less than 
-    //    {
-    //        _velocity = rb.velocity;
-    //        _velocity.x = -getVel(_elaspedTimeSinceButtonPress).x;
-    //        rb.velocity = _velocity;
-    //        rb.velocity = new Vector2(Mathf.Clamp(_velocity.x, -_MAX_WALKING_SPEED, _MAX_WALKING_SPEED), _velocity.y); // Clamp speed.
-    //    }
-    //    else
-    //    {
-    //        Vector3 temp = rb.velocity;
-    //        temp.x = -_MAX_WALKING_SPEED;
-    //        rb.velocity = temp;
-    //    }
-    //}
 
     //public void intialJump()
     //{
@@ -211,11 +135,6 @@ public class Runtime2DMovement : MonoBehaviour
     //    _isJumping = true;
     //}
 
-    Vector2 getVel(float time)
-    {
-        return new Vector3(acclearation * time, _velocity.y, 0.0f); // v = u + at.
-    }
-
     public void setStopMovement(bool t_stopMovement)
     {
         _stopMovement = t_stopMovement;
@@ -230,9 +149,20 @@ public class Runtime2DMovement : MonoBehaviour
 	{
 		_moveLeft = t_moveLeft;
 	}
+
+    public void setIsJumping(bool t_isJumping)
+    {
+        _isJumping = t_isJumping;
+    }
+
     public bool getIsGrounded()
     {
         return _isGrounded;
+    }
+
+    public void setIsGrounded(bool t_isGrounded)
+    {
+        _isGrounded =t_isGrounded;
     }
 
     public bool getIsMovingRight()
@@ -262,7 +192,6 @@ public class Runtime2DMovement : MonoBehaviour
 
     public float getTimeLeft()
     {
-        Debug.Log(_timeLeft);
         return _timeLeft;
     }
 
@@ -299,5 +228,15 @@ public class Runtime2DMovement : MonoBehaviour
     public void setRigidBodyVelocity(Vector2 t_velocity)
     {
         rb.velocity = t_velocity;
+    }
+
+    public void setJumpTimeCounter(float t_jumpTimeCounter)
+    {
+        jumpTimeCounter = t_jumpTimeCounter;
+    }
+
+    public float getJumpTimeCounter()
+    {
+        return jumpTimeCounter;
     }
 }
