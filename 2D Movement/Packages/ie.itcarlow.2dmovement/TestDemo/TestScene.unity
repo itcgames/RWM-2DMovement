@@ -305,6 +305,7 @@ GameObject:
   - component: {fileID: 1463122480}
   - component: {fileID: 1463122479}
   - component: {fileID: 1463122482}
+  - component: {fileID: 1463122484}
   - component: {fileID: 1463122483}
   m_Layer: 0
   m_Name: Player
@@ -483,6 +484,19 @@ MonoBehaviour:
   _MAX_WALKING_SPEED: 5
   acclearation: 17
   _LOWEST_WALKING_SPEED: 0.3
+--- !u!114 &1463122484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463122478}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9faeb2e994002e442bf90a2b4e2f3093, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movement: {fileID: 0}
 --- !u!1 &1983652680
 GameObject:
   m_ObjectHideFlags: 0

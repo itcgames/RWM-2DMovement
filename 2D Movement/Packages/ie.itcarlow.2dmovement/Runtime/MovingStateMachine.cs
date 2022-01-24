@@ -11,7 +11,7 @@ public class MovingStateMachine : StateMachine
     public WalkingLeftState movementLeft;
     public WalkingRightState movementRight;
     public JumpingState jumping;
-
+    public BaseState initalState;
     private void Awake()
     {
         idleState = new IdleState(this);
@@ -19,10 +19,16 @@ public class MovingStateMachine : StateMachine
         movementRight = new WalkingRightState(this);
         jumping = new JumpingState(this);
         movement = this.GetComponent<Runtime2DMovement>();
+        initalState = idleState;
     }
 
     protected override BaseState GetInitialState()
     {
-        return idleState;
+        return initalState;
+    }
+
+    public void setInitalState(BaseState t_initalState)
+    {
+        initalState = t_initalState;
     }
 }
