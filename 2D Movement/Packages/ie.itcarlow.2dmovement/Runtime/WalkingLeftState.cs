@@ -14,6 +14,14 @@ public class WalkingLeftState : State
     {
         base.Enter();
         handleLeftInput();
+        _sm._animator.SetBool("Idle", false);
+        _sm._animator.SetBool("Jumping", false);
+        _sm._animator.SetBool("WalkingLeft", true);
+        _sm._animator.SetBool("WalkingRight", false);
+
+        Vector3 temp = _sm.transform.localScale;
+        if (temp.x < 0) { temp.x *= -1; }
+        _sm.transform.localScale = temp;
     }
 
     public override void UpdateLogic()

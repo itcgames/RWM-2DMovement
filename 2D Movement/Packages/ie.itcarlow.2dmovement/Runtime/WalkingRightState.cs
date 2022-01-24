@@ -5,6 +5,7 @@ using UnityEngine;
 public class WalkingRightState : State
 {
     private MovingStateMachine _sm;
+    private Animator animator;
     public WalkingRightState(MovingStateMachine stateMachine) : base("moving", stateMachine)
     {
         _sm = stateMachine;
@@ -14,6 +15,14 @@ public class WalkingRightState : State
     {
         base.Enter();
         handleRightInput();
+        _sm._animator.SetBool("Idle", false);
+        _sm._animator.SetBool("Jumping", false);
+        _sm._animator.SetBool("WalkingLeft", false);
+        _sm._animator.SetBool("WalkingRight", true);
+
+        Vector3 temp = _sm.transform.localScale;
+        if (temp.x > 0) { temp.x *= -1; }
+        _sm.transform.localScale = temp;
     }
 
     public override void UpdateLogic()

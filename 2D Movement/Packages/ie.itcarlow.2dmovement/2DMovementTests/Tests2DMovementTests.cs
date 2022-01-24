@@ -71,14 +71,16 @@ namespace Tests
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
             MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            yield return new WaitForSeconds(0.5f);
             player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().jumping);
             player.GetComponent<MovingStateMachine>().jumping.handleJumpInput();
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.1f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
 
             position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<Runtime2DMovement>().setJumpTimeCounter(10);
             player.GetComponent<MovingStateMachine>().jumping.continuousJump();
-            yield return new WaitForSeconds(0.01f);
+            yield return new WaitForSeconds(0.1f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
 
@@ -112,6 +114,55 @@ namespace Tests
             Assert.IsTrue(player.GetComponent<Runtime2DMovement>()._invincible);
             yield return new WaitForSeconds(3.0f);
             Assert.IsFalse(player.GetComponent<Runtime2DMovement>()._invincible);
+        }
+
+
+        [UnityTest]
+        public IEnumerator IdleAnimationTest()
+        {
+            player = GameObject.Find("Player");
+            Animator animator = player.GetComponent<Animator>();
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(animator.GetBool("Idle"));
+        }
+
+        [UnityTest]
+        public IEnumerator WalkingRightAnimationTest()
+        {
+            player = GameObject.Find("Player");
+            Animator animator = player.GetComponent<Animator>();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().movementRight);
+            player.GetComponent<MovingStateMachine>().movementRight.Enter();
+            player.GetComponent<MovingStateMachine>().movementRight.moveRight();
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(animator.GetBool("WalkingRight"));
+        }
+
+        [UnityTest]
+        public IEnumerator WalkingLeftAnimationTest()
+        {
+            player = GameObject.Find("Player");
+            Animator animator = player.GetComponent<Animator>();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().movementLeft);
+            player.GetComponent<MovingStateMachine>().movementLeft.Enter();
+            player.GetComponent<MovingStateMachine>().movementLeft.moveLeft();
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(animator.GetBool("WalkingLeft"));
+        }
+
+        [UnityTest]
+        public IEnumerator JumpingAnimationTest()
+        {
+            player = GameObject.Find("Player");
+            Animator animator = player.GetComponent<Animator>();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().jumping);
+            player.GetComponent<MovingStateMachine>().jumping.Enter();
+            player.GetComponent<MovingStateMachine>().jumping.handleJumpInput();
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(animator.GetBool("Jumping"));
         }
     }
 }
