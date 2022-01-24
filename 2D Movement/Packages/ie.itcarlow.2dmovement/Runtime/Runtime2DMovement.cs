@@ -4,13 +4,11 @@ using UnityEngine;
 
 public class Runtime2DMovement : MonoBehaviour
 {
-    // BOOLS USED FOR MOVEMENT, WILL BE CHANGED FOR FSM
     private bool _moveRight;
     private bool _moveLeft;
     private bool _isJumping;
     private bool _isGrounded;
     private bool _stopMovement = false;
-    // BOOLS USED FOR MOVEMENT, WILL BE CHANGED FOR FSM
 
     private Rigidbody2D rb;
     private float jumpTimeCounter;
@@ -18,6 +16,8 @@ public class Runtime2DMovement : MonoBehaviour
     private float _timeLeft;
     private float _declaration = 0.0f;
     private float _elaspedTimeSinceButtonPress;
+    private bool _isDead = false;
+    private bool _invincible = false;
 
     // VARIALBES THE USER CAN EDIT TO CREATE DIFFERENT JUMP ARCS/MOVEMENT
     public string _walkableSurfaceTagName;
@@ -30,6 +30,11 @@ public class Runtime2DMovement : MonoBehaviour
     public float _MAX_WALKING_SPEED = 5.0f;
     public float acclearation = 17.0f;
     public float _LOWEST_WALKING_SPEED = 0.3f;
+    public int _health = 10;
+    public int _MAX_HEALTH = 15;
+    public float _hurtTimer = 0.25f;
+    public float _invincibleTimer = 2.0f;
+    public float _damagedFlashRate = 0.25f;
     // VARIALBES THE USER CAN EDIT TO CREATE DIFFERENT JUMP ARCS/MOVEMENT
 
     void Start()
@@ -53,44 +58,20 @@ public class Runtime2DMovement : MonoBehaviour
         }
     }
 
-    void Update()
+    private void OnCollisionEnter2D(Collision2D collider)
     {
-        //getInput();
-        //move();
-    }
-
-    // Gets input for the user.
-    void getInput()
-    {
-        //getUpInput();
-        //getRightInput();
-        //getLightInput();
-    }
-
-
-
-    //void getUpInput()
-    //{
-    //    if (Input.GetKeyDown(jumpKey) && _isGrounded) // UP
-    //    {
-    //        intialJump();
-    //    }
-    //    if (Input.GetKey(jumpKey) && _isJumping)
-    //    {
-    //        continuousJump();
-    //    }
-    //    if (Input.GetKeyUp(jumpKey))
-    //    {
-    //        _isJumping = false;
-    //    }
-    //}
-
-    private void OnCollisionEnter2D(Collision2D walkableSurface)
-    {
-        if (walkableSurface.gameObject.tag == _walkableSurfaceTagName && !_isGrounded)
+        if (collider.gameObject.tag == _walkableSurfaceTagName && !_isGrounded)
         {
              _isGrounded = true;
             _isJumping = false;
+        }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            decreaseHealth(2);
         }
     }
 
@@ -102,38 +83,6 @@ public class Runtime2DMovement : MonoBehaviour
             _isGrounded = false;
         }
     }
-
-    //public void intialJump()
-    //{
-    //    handleJumpInput();
-    //}
-
-    //public void continuousJump()
-    //{
-    //    if (jumpTimeCounter > 0)
-    //    {
-    //        Vector3 temp = rb.velocity;
-    //        temp = Vector2.up * impluseJumpVel * 1.3f;
-    //        temp.x = rb.velocity.x;
-    //        rb.velocity = temp;
-    //        jumpTimeCounter -= Time.deltaTime;
-    //    }
-    //    else // Else he is falling.
-    //    {
-    //        _isJumping = false;
-    //    }
-    //}
-
-
-    //public void handleJumpInput()
-    //{
-    //    Vector3 temp = rb.velocity;
-    //    temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
-    //    temp.x = rb.velocity.x;
-    //    rb.velocity = temp;
-    //    jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
-    //    _isJumping = true;
-    //}
 
     public void setStopMovement(bool t_stopMovement)
     {
@@ -238,5 +187,71 @@ public class Runtime2DMovement : MonoBehaviour
     public float getJumpTimeCounter()
     {
         return jumpTimeCounter;
+    }
+
+    public void addHealth(int t_healthAddition)
+    {
+        if (_health + t_healthAddition >= _MAX_HEALTH) { _health = _MAX_HEALTH; }
+        else
+        {
+            _health += t_healthAddition;
+        }
+    }
+    public bool getIsDead()
+    {
+        return _isDead;
+    }
+
+    public void setIsDead(bool t_isDead)
+    {
+        _isDead = t_isDead;
+    }
+
+    public void decreaseHealth(int t_healthSubtraction)
+    {
+        if (!_invincible)
+        {
+            if (_health - t_healthSubtraction <= 0)
+            {
+                _health = 0;
+            }
+            else
+            {
+                _health -= t_healthSubtraction;
+                _invincible = true;
+                StartCoroutine(damagedStateTime());
+            }
+        }
+    }
+
+    IEnumerator invincibilityTime()
+    {
+        StartCoroutine(invincibilityFlash());
+
+        yield return new WaitForSeconds(_invincibleTimer);
+
+        _invincible = false;
+    }
+
+    IEnumerator damagedStateTime()
+    {
+        yield return new WaitForSeconds(_hurtTimer);
+
+        StartCoroutine(invincibilityTime());
+    }
+
+    IEnumerator invincibilityFlash()
+    {
+        while (_invincible)
+        {
+            GetComponent<Renderer>().enabled = false;
+
+            yield return new WaitForSeconds(_damagedFlashRate);
+
+            GetComponent<Renderer>().enabled = true;
+
+            yield return new WaitForSeconds(_damagedFlashRate);
+        }
+        GetComponent<Renderer>().enabled = true;
     }
 }
