@@ -28,12 +28,15 @@ namespace Tests
         {
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().moveRight();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().movementRight);
+            player.GetComponent<MovingStateMachine>().movementRight.moveRight();
             yield return new WaitForSeconds(1.0f);
-            Assert.Greater(player.GetComponent<Rigidbody2D>().position.x, position.x);
+            Assert.Greater(player.GetComponent<Runtime2DMovement>().getRigidBody().transform.position.x, position.x);
 
-            position = player.GetComponent<Rigidbody2D>().position;
-            player.GetComponent<Runtime2DMovement>().moveLeft();
+            position = player.GetComponent<Rigidbody2D>().transform.position;
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().movementLeft);
+            player.GetComponent<MovingStateMachine>().movementLeft.moveLeft();
             yield return new WaitForSeconds(1.0f);
             Assert.Less(player.GetComponent<Rigidbody2D>().position.x, position.x);
         }
@@ -43,8 +46,10 @@ namespace Tests
         {
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().intialJump();
-            yield return new WaitForSeconds(0.01f);
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().jumping);
+            player.GetComponent<MovingStateMachine>().jumping.handleJumpInput();
+            yield return new WaitForSeconds(0.1f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }
 
@@ -53,7 +58,9 @@ namespace Tests
         {
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().intialJump();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().jumping);
+            player.GetComponent<MovingStateMachine>().jumping.handleJumpInput();
             yield return new WaitForSeconds(1.0f);
             Assert.IsTrue(player.GetComponent<Runtime2DMovement>().getIsGrounded());
         }
@@ -63,17 +70,14 @@ namespace Tests
         {
             player = GameObject.Find("Player");
             Vector3 position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().intialJump();
+            MovingStateMachine msm = player.GetComponent<MovingStateMachine>();
+            player.GetComponent<MovingStateMachine>().setInitalState(player.GetComponent<MovingStateMachine>().jumping);
+            player.GetComponent<MovingStateMachine>().jumping.handleJumpInput();
             yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
 
             position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().continuousJump();
-            yield return new WaitForSeconds(0.01f);
-            Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
-
-            position = player.GetComponent<Rigidbody2D>().transform.position;
-            player.GetComponent<Runtime2DMovement>().continuousJump();
+            player.GetComponent<MovingStateMachine>().jumping.continuousJump();
             yield return new WaitForSeconds(0.01f);
             Assert.Greater(player.GetComponent<Rigidbody2D>().position.y, position.y);
         }

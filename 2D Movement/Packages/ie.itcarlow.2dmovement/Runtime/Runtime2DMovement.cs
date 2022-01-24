@@ -55,83 +55,41 @@ public class Runtime2DMovement : MonoBehaviour
 
     void Update()
     {
-        getInput();
-        move();
+        //getInput();
+        //move();
     }
 
     // Gets input for the user.
     void getInput()
     {
-        getUpInput();
-        getRightInput();
-        getLightInput();
+        //getUpInput();
+        //getRightInput();
+        //getLightInput();
     }
 
-    void move()
-    {
-        if ((_moveRight || _moveLeft) && !_stopMovement)
-        {
-            if (_moveRight)
-            {
-                moveRight();
-            }
-            else if (_moveLeft)
-            {
-                moveLeft();
-            }
-            _elaspedTimeSinceButtonPress += Time.deltaTime;
-        }
-        else
-        {
-            stopLeftAndRightMovement();
-        }
-    }
 
-    void getRightInput()
-    {
-        if (Input.GetKeyDown(rightKey)) // RIGHT
-        {
-            handleRightInput();
-        }
-        if (Input.GetKeyUp(rightKey))
-        {
-            _moveRight = false;
-        }
-    }
 
-    void getLightInput()
-    {
-        if (Input.GetKeyDown(leftKey)) // RIGHT
-        {
-            handleLeftInput();
-        }
-        if (Input.GetKeyUp(leftKey))
-        {
-            _moveLeft = false;
-        }
-    }
-
-    void getUpInput()
-    {
-        if (Input.GetKeyDown(jumpKey) && _isGrounded) // UP
-        {
-            intialJump();
-        }
-        if (Input.GetKey(jumpKey) && _isJumping)
-        {
-            continuousJump();
-        }
-        if (Input.GetKeyUp(jumpKey))
-        {
-            _isJumping = false;
-        }
-    }
+    //void getUpInput()
+    //{
+    //    if (Input.GetKeyDown(jumpKey) && _isGrounded) // UP
+    //    {
+    //        intialJump();
+    //    }
+    //    if (Input.GetKey(jumpKey) && _isJumping)
+    //    {
+    //        continuousJump();
+    //    }
+    //    if (Input.GetKeyUp(jumpKey))
+    //    {
+    //        _isJumping = false;
+    //    }
+    //}
 
     private void OnCollisionEnter2D(Collision2D walkableSurface)
     {
         if (walkableSurface.gameObject.tag == _walkableSurfaceTagName && !_isGrounded)
         {
-            _isGrounded = true;
+             _isGrounded = true;
             _isJumping = false;
         }
     }
@@ -145,90 +103,66 @@ public class Runtime2DMovement : MonoBehaviour
         }
     }
 
-    public void moveRight()
-    {
-        if (_elaspedTimeSinceButtonPress < _timeLeft)
-        {
-            _velocity = rb.velocity;
-            _velocity.x = getVel(_elaspedTimeSinceButtonPress).x;
-            rb.velocity = _velocity;
-            rb.velocity = new Vector2(Mathf.Clamp(_velocity.x, -_MAX_WALKING_SPEED, _MAX_WALKING_SPEED), _velocity.y); // Clamp speed.
-        }
-        else
-        {
-            Vector3 temp = rb.velocity;
-            temp.x = _MAX_WALKING_SPEED;
-            rb.velocity = temp;
-        }
-    }
+    //public void intialJump()
+    //{
+    //    handleJumpInput();
+    //}
 
-    public void moveLeft()
-    {
-        if (_elaspedTimeSinceButtonPress < _timeLeft) // If the elaspedtime on when the button is pressed is less than 
-        {
-            _velocity = rb.velocity;
-            _velocity.x = -getVel(_elaspedTimeSinceButtonPress).x;
-            rb.velocity = _velocity;
-            rb.velocity = new Vector2(Mathf.Clamp(_velocity.x, -_MAX_WALKING_SPEED, _MAX_WALKING_SPEED), _velocity.y); // Clamp speed.
-        }
-        else
-        {
-            Vector3 temp = rb.velocity;
-            temp.x = -_MAX_WALKING_SPEED;
-            rb.velocity = temp;
-        }
-    }
+    //public void continuousJump()
+    //{
+    //    if (jumpTimeCounter > 0)
+    //    {
+    //        Vector3 temp = rb.velocity;
+    //        temp = Vector2.up * impluseJumpVel * 1.3f;
+    //        temp.x = rb.velocity.x;
+    //        rb.velocity = temp;
+    //        jumpTimeCounter -= Time.deltaTime;
+    //    }
+    //    else // Else he is falling.
+    //    {
+    //        _isJumping = false;
+    //    }
+    //}
 
-    public void stopLeftAndRightMovement()
-    {
-        if (_velocity.x != 0.0f)
-        {
-            _declaration = acclearation / _movementTime * Time.deltaTime; // Declaration = v/t.
-            if (_velocity.x < 0.0f)
-            {
-                _velocity.x += _declaration; // reduce vel by declaration.
-                if (_velocity.x >= -_LOWEST_WALKING_SPEED)
-                {
-                    _velocity.x = 0.0f;
-                }
-            }
-            else if (_velocity.x > 0.0f)
-            {
-                _velocity.x -= _declaration; // reduce vel by declaration.
-                if (_velocity.x <= _LOWEST_WALKING_SPEED)
-                {
-                    _velocity.x = 0.0f;
-                }
-            }
-            _velocity.y = rb.velocity.y;
-            rb.velocity = _velocity;
-        }
-    }
 
-    public void intialJump()
-    {
-        handleJumpInput();
-    }
+    //public void handleJumpInput()
+    //{
+    //    Vector3 temp = rb.velocity;
+    //    temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
+    //    temp.x = rb.velocity.x;
+    //    rb.velocity = temp;
+    //    jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
+    //    _isJumping = true;
+    //}
 
-    public void continuousJump()
+    public void setStopMovement(bool t_stopMovement)
     {
-        if (jumpTimeCounter > 0)
-        {
-            Vector3 temp = rb.velocity;
-            temp = Vector2.up * impluseJumpVel * 1.3f;
-            temp.x = rb.velocity.x;
-            rb.velocity = temp;
-            jumpTimeCounter -= Time.deltaTime;
-        }
-        else // Else he is falling.
-        {
-            _isJumping = false;
-        }
+        _stopMovement = t_stopMovement;
+    }
+	
+	public void setWalkRight(bool t_moveRight)
+	{
+		_moveRight = t_moveRight;
+	}
+	
+	public void setWalkLeft(bool t_moveLeft)
+	{
+		_moveLeft = t_moveLeft;
+	}
+
+    public void setIsJumping(bool t_isJumping)
+    {
+        _isJumping = t_isJumping;
     }
 
     public bool getIsGrounded()
     {
         return _isGrounded;
+    }
+
+    public void setIsGrounded(bool t_isGrounded)
+    {
+        _isGrounded =t_isGrounded;
     }
 
     public bool getIsMovingRight()
@@ -246,71 +180,63 @@ public class Runtime2DMovement : MonoBehaviour
         return _isJumping;
     }
 
-    public void handleRightInput()
+    public float getTimeSinceLastButtonPress()
     {
-        if (_moveLeft)
-        {
-            _timeLeft = _movementTime * 2.0f;
-        }
-        else
-        {
-            _timeLeft = _movementTime;
-            if (_velocity.x > 0.0f)
-            {
-                _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-            }
-        }
-        _moveRight = true;
-        _moveLeft = false;
-        _elaspedTimeSinceButtonPress = 0.0f;
+        return _elaspedTimeSinceButtonPress;
     }
 
-    public void handleLeftInput()
+    public void setTimeSinceLastButtonPress(float t_timeSinceLastUpdate)
     {
-        if (_moveRight)
-        {
-            _timeLeft = _movementTime * 2.0f;
-        }
-        else
-        {
-            _timeLeft = _movementTime;
-            if (_velocity.x < 0.0f)
-            {
-                _timeLeft = _MAX_WALKING_SPEED - _velocity.x / acclearation; // t = v - u / a.
-            }
-        }
-        _moveLeft = true;
-        _moveRight = false;
-        _elaspedTimeSinceButtonPress = 0.0f;
+        _elaspedTimeSinceButtonPress = t_timeSinceLastUpdate;
     }
 
-    public void handleJumpInput()
+    public float getTimeLeft()
     {
-        Vector3 temp = rb.velocity;
-        temp = Vector2.up * impluseJumpVel; // Impluse megaman into the air by a set amount.
-        temp.x = rb.velocity.x;
-        rb.velocity = temp;
-        jumpTimeCounter = TimeToReachMaxHeight; // reset jumptimecounter.
-        _isJumping = true;
+        return _timeLeft;
     }
 
-    Vector2 getVel(float time)
+    public void setTimeLeft(float t_timeLeft)
     {
-        return new Vector3(acclearation * time, _velocity.y, 0.0f); // v = u + at.
+        _timeLeft = t_timeLeft;
     }
 
-    public void setStopMovement(bool t_stopMovement)
+    public Vector2 getVelocity()
     {
-        _stopMovement = t_stopMovement;
+        return _velocity;
     }
-	
-	public void setWalkRight(bool t_moveRight)
-	{
-		_moveRight = t_moveRight;
-	}
-	
-	public void setWalkLeft(bool t_moveLeft)
-	{
-		_moveLeft = t_moveLeft;
-	}
+
+    public void setVelocity(Vector2 t_velocity)
+    {
+        _velocity = t_velocity;
+    }
+
+    public float getDeclaration()
+    {
+        return _declaration;
+    }
+
+    public void setDeclaration(float t_declaration)
+    {
+        _declaration = t_declaration;
+    }
+
+    public Rigidbody2D getRigidBody()
+    {
+        return rb;
+    }
+
+    public void setRigidBodyVelocity(Vector2 t_velocity)
+    {
+        rb.velocity = t_velocity;
+    }
+
+    public void setJumpTimeCounter(float t_jumpTimeCounter)
+    {
+        jumpTimeCounter = t_jumpTimeCounter;
+    }
+
+    public float getJumpTimeCounter()
+    {
+        return jumpTimeCounter;
+    }
 }
