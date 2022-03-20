@@ -13,13 +13,10 @@ public class JumpingState : State
     public override void Enter()
     {
         base.Enter();
-        if(_sm._animator != null)
-        {
-            _sm._animator.SetBool("Idle", false);
-            _sm._animator.SetBool("Jumping", true);
-            _sm._animator.SetBool("WalkingLeft", false);
-            _sm._animator.SetBool("WalkingRight", false);
-        }
+        _sm._animator.SetBool("Idle", false);
+        _sm._animator.SetBool("Jumping", true);
+        _sm._animator.SetBool("WalkingLeft", false);
+        _sm._animator.SetBool("WalkingRight", false);
         handleJumpInput();
     }
 
@@ -29,13 +26,11 @@ public class JumpingState : State
         if (Input.GetKeyDown(_sm.movementController.leftKey))
         {
             _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
-            _sm.movementController.setTimeSinceLastButtonPress(0.0f);
             stateMachine.ChangeState(_sm.movementLeft);
         }
         else if (Input.GetKeyDown(_sm.movementController.rightKey))
         {
             _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
-            _sm.movementController.setTimeSinceLastButtonPress(0.0f);
             stateMachine.ChangeState(_sm.movementRight);
         }
         if (Input.GetKey(_sm.movementController.jumpKey) && _sm.movementController.getIsJumping())
@@ -46,22 +41,9 @@ public class JumpingState : State
         {
             _sm.movementController.setIsJumping(false);
         }
-        else if (_sm.movementController.getIsGrounded() && Input.GetKey(_sm.movementController.rightKey))
+        else if (_sm.movementController.getIsGrounded())
         {
-            _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
-            stateMachine.ChangeState(_sm.movementRight);
-        }
-        else if (_sm.movementController.getIsGrounded() && Input.GetKey(_sm.movementController.leftKey))
-        {
-            _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
-            stateMachine.ChangeState(_sm.movementLeft);
-        }
-        else if(_sm.movementController.getIsGrounded())
-        {
-            _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
             stateMachine.ChangeState(_sm.idleState);
-            _sm.movementController.setWalkLeft(false);
-            _sm.movementController.setWalkRight(false);
         }
     }
 
