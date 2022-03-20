@@ -14,10 +14,13 @@ public class WalkingLeftState : State
     {
         base.Enter();
         handleLeftInput();
-        _sm._animator.SetBool("Idle", false);
-        _sm._animator.SetBool("Jumping", false);
-        _sm._animator.SetBool("WalkingLeft", true);
-        _sm._animator.SetBool("WalkingRight", false);
+        if(_sm._animator != null)
+        {
+            _sm._animator.SetBool("Idle", false);
+            _sm._animator.SetBool("Jumping", false);
+            _sm._animator.SetBool("WalkingLeft", true);
+            _sm._animator.SetBool("WalkingRight", false);
+        }
 
         Vector3 temp = _sm.transform.localScale;
         if (temp.x < 0) { temp.x *= -1; }
@@ -33,10 +36,13 @@ public class WalkingLeftState : State
         if (Input.GetKeyUp(_sm.movementController.leftKey))
         {
             _sm.movementController.setVelocity(_sm.movementController.getRigidBody().velocity);
+            _sm.movementController.setWalkLeft(false);
             stateMachine.ChangeState(_sm.idleState);
         }
         else if (Input.GetKeyDown(_sm.movementController.rightKey))
         {
+            _sm.movementController.setWalkLeft(false);
+            _sm.movementController.setTimeSinceLastButtonPress(0.0f);
             stateMachine.ChangeState(_sm.movementRight);
         }
         else if (Input.GetKeyDown(_sm.movementController.jumpKey) && _sm.movementController.getIsGrounded())
@@ -61,7 +67,6 @@ public class WalkingLeftState : State
         }
         _sm.movementController.setWalkLeft(true);
         _sm.movementController.setWalkRight(false);
-        _sm.movementController.setTimeSinceLastButtonPress(0.0f);
     }
 
     public void moveLeft()

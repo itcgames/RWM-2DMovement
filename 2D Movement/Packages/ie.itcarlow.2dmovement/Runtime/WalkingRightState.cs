@@ -35,10 +35,13 @@ public class WalkingRightState : State
         if (Input.GetKeyUp(_sm.movementController.rightKey))
         {
             _sm.movementController.setVelocity(_sm.movementController.getRigidBody().velocity);
+            _sm.movementController.setWalkRight(false);
             stateMachine.ChangeState(_sm.idleState);
         }
         else if (Input.GetKeyDown(_sm.movementController.leftKey))
         {
+            _sm.movementController.setWalkRight(false);
+            _sm.movementController.setTimeSinceLastButtonPress(0.0f);
             stateMachine.ChangeState(_sm.movementLeft);
         }
         else if (Input.GetKeyDown(_sm.movementController.jumpKey) && _sm.movementController.getIsGrounded())
@@ -63,7 +66,6 @@ public class WalkingRightState : State
         }
         _sm.movementController.setWalkRight(true);
         _sm.movementController.setWalkLeft(false);
-        _sm.movementController.setTimeSinceLastButtonPress(0.0f);
     }
 
     public void moveRight()
