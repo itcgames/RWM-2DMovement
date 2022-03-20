@@ -63,6 +63,8 @@ public class JumpingState : State
         else if(_sm.movementController.getIsGrounded())
         {
             _sm.movementController.setRigidBodyVelocity(_sm.movementController.getVelocity());
+			_sm.movementController.setWalkLeft(false);
+            _sm.movementController.setWalkRight(false);
             stateMachine.ChangeState(_sm.idleState);
         }
     }
