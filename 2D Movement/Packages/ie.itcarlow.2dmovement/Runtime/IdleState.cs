@@ -20,6 +20,11 @@ public class IdleState : State
             _sm._animator.SetBool("Jumping", false);
             _sm._animator.SetBool("WalkingLeft", false);
             _sm._animator.SetBool("WalkingRight", false);
+
+            _sm._isMovingLeft = false;
+            _sm._isMovingRight = false;
+            _sm._isJumping = false;
+            _sm._isIdle = true;
         }
         _sm.movementController.setTimeSinceLastButtonPress(0.0f);
     }

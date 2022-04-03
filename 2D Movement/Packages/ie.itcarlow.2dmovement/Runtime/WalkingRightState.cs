@@ -21,6 +21,11 @@ public class WalkingRightState : State
             _sm._animator.SetBool("Jumping", false);
             _sm._animator.SetBool("WalkingLeft", false);
             _sm._animator.SetBool("WalkingRight", true);
+
+            _sm._isMovingLeft = false;
+            _sm._isMovingRight = true;
+            _sm._isJumping = false;
+            _sm._isIdle = false;
         }
         Vector3 temp = _sm.transform.localScale;
         if (temp.x > 0) { temp.x *= -1; }

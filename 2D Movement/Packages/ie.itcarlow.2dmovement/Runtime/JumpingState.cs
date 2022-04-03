@@ -5,7 +5,6 @@ using UnityEngine;
 public class JumpingState : State
 {
     private MovingStateMachine _sm;
-    private int _speed;
     public JumpingState(MovingStateMachine stateMachine) : base("moving", stateMachine)
     {
         _sm = stateMachine;
@@ -14,17 +13,17 @@ public class JumpingState : State
     public override void Enter()
     {
         base.Enter();
-        if (_sm._animator.GetBool("Idle"))
+        if (_sm._isIdle)
         {
-            _speed = 0;
+            _sm._MovingWhileJumpingSpeed = 0;
         }
-        else if(_sm._animator.GetBool("WalkingLeft"))
+        else if(_sm._isMovingLeft)
         {
-            _speed = -5;
+            _sm._MovingWhileJumpingSpeed = -_sm.movementController._MAX_WALKING_SPEED;
         }
         else
         {
-            _speed = 5;
+            _sm._MovingWhileJumpingSpeed = _sm.movementController._MAX_WALKING_SPEED;
         }
 
         if(_sm._animator != null)
@@ -33,6 +32,11 @@ public class JumpingState : State
             _sm._animator.SetBool("Jumping", true);
             _sm._animator.SetBool("WalkingLeft", false);
             _sm._animator.SetBool("WalkingRight", false);
+
+            _sm._isMovingLeft = false;
+            _sm._isMovingRight = false;
+            _sm._isJumping = true;
+            _sm._isIdle = false;
         }
         handleJumpInput();
     }
@@ -100,7 +104,7 @@ public class JumpingState : State
         {
             Vector3 temp = _sm.movementController.getRigidBody().velocity;
             temp = Vector2.up * _sm.movementController.impluseJumpVel * 1.3f;
-            temp.x = _speed;
+            temp.x = _sm._MovingWhileJumpingSpeed;
             _sm.movementController.setRigidBodyVelocity(temp);
             _sm.movementController.setJumpTimeCounter(_sm.movementController.getJumpTimeCounter() - Time.deltaTime);
         }
