@@ -164,5 +164,37 @@ namespace Tests
             yield return new WaitForSeconds(0.01f);
             Assert.IsTrue(animator.GetBool("Jumping"));
         }
+
+        [UnityTest]
+        public IEnumerator InvinibilityStateTest()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().decreaseHealth(2);
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(player.GetComponent<Runtime2DMovement>()._invincible);
+        }
+
+        [UnityTest]
+        public IEnumerator InvinibilityStateIsFinishedTest()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().decreaseHealth(2);
+            yield return new WaitForSeconds(0.01f);
+            Assert.IsTrue(player.GetComponent<Runtime2DMovement>()._invincible);
+            yield return new WaitForSeconds(3.0f);
+            Assert.IsFalse(player.GetComponent<Runtime2DMovement>()._invincible);
+        }
+
+        [UnityTest]
+        public IEnumerator RendererIsEnalbedAfterLeavingInvinibilityState()
+        {
+            player = GameObject.Find("Player");
+            int health = player.GetComponent<Runtime2DMovement>()._health;
+            player.GetComponent<Runtime2DMovement>().decreaseHealth(2);
+            yield return new WaitForSeconds(3.0f);
+            Assert.IsTrue(player.GetComponent<Renderer>().enabled);
+        }
     }
 }
